@@ -1,0 +1,26 @@
+version: '3'
+ 
+services:
+  db1:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+      POSTGRES_DB: OPN-take-home
+    ports:
+      - 5432:5432  
+
+  app:
+    image: madsdksdam/opn_app
+    depends_on:
+      - db1
+    expose:
+      - "5000"
+ 
+  proxy:
+    image: madsdksdam/opn_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - app
